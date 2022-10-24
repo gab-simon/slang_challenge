@@ -53,6 +53,12 @@ const response = await userService
             answered_at: '2021-09-14T00:37:36.117-04:00',
             first_seen_at: '2021-09-14T00:31:25.117-04:00',
           },
+          {
+            id: 27133,
+            user_id: 'brr5zqid',
+            answered_at: '2021-09-14T00:37:36.117-04:00',
+            first_seen_at: '2021-09-14T00:31:25.117-04:00',
+          },
         ],
       },
     ];
@@ -89,15 +95,17 @@ function validateDate(answered: string, firstSeen: string) {
 }
 
 function validateSession(data: UserSessionIN[]) {
-  const dataA = data[0].activities.map((el: any, index: number) => {
+  // let data3;
+  data[0].activities.map((el: any, index: number) => {
     activities: {
       if (validateDate(el.answered_at, el.first_seen_at)) {
-        createNewSession([el]);
+        let x = [el].concat(...[el])
+        console.log(x);
       }
     }
   });
 
-  return dataA
+  // console.log(data3);
 }
 
 function validateSeconds(answered: string, firstSeen: string) {
@@ -113,6 +121,9 @@ function validateSeconds(answered: string, firstSeen: string) {
 function formatToPost(data: any[]) {
   return data.map((el: any) => ({
     user_id: el.user_id,
+    activity_ids: [
+      el.id
+    ],
     duration_seconds: validateSeconds(el.answered_at, el.first_seen_at),
     started_at: el.first_seen_at,
     ended_at: el.answered_at,
@@ -135,24 +146,30 @@ async function createNewSession(userData: any[]) {
 - Have a duration in seconds (which should be the difference between the started_at and
 ended_at).
 - Pay close attention to the format of the sample JSON object below!*/
+  const data = {
+    "user_sessions": {
 
-  // const response = await userService
-  // .storeUser(data[])
-  // .then((success: any) => {
-  //   console.log(success?.data);
-  // })
-  // .catch((error: any) => {
-  //   let errorStatus = error?.response?.status;
-  //   if (errorStatus === ERROR.Unauthorized) {
-  //     console.log('401 - Unauthorized');
-  //   } else if (errorStatus === ERROR.BadRequest) {
-  //     console.log('400 - Bad Request');
-  //   } else if (errorStatus === ERROR.TooManyRequests) {
-  //     console.log('429 - Too many requests ');
-  //   } else if (errorStatus === ERROR.NoContent) {
-  //     console.log('204 - Too many requests ');
-  //   }else {
-  //     console.log('error!');
-  //   }
-  // });
+    }
+  }  
+
+
+  const response = await userService
+  .storeUser(data)
+  .then((success: any) => {
+    console.log(success?.data);
+  })
+  .catch((error: any) => {
+    let errorStatus = error?.response?.status;
+    if (errorStatus === ERROR.Unauthorized) {
+      console.log('401 - Unauthorized');
+    } else if (errorStatus === ERROR.BadRequest) {
+      console.log('400 - Bad Request');
+    } else if (errorStatus === ERROR.TooManyRequests) {
+      console.log('429 - Too many requests ');
+    } else if (errorStatus === ERROR.NoContent) {
+      console.log('204 - Too many requests ');
+    }else {
+      console.log('error!');
+    }
+  });
 }
