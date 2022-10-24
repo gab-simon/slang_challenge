@@ -4,6 +4,7 @@
   height: 128px;
   width: 128px;
   padding: 2rem;
+  border-radius: 50%;
 }
 
 #canvas {
@@ -11,4 +12,17 @@
   margin: 2rem auto;
   width: 540px;
   height: 540px;
+}
+
+.header {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  /* vertical-align: top; */
+}
+
+h1 h2{
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
